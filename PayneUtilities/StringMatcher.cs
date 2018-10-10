@@ -58,12 +58,19 @@ namespace PayneUtilities
         }
     }
 
-    public static class Extensions
+    public class ConsoleVerifier : IMatchVerifier
     {
-        public static void VerifyAndSortMatches<T1, T2>(this StringMatcher matcher, IEnumerable<T1> sourceCollection,
-            IEnumerable<T2> targetCollection, Func<T1, string> sourceSelector, Func<T2, string> targetSelector, Action<IMatch> onVerifiedAction = null)
+        public bool VerifyMatch(IMatch match)
         {
-            matcher.VerifyMatches(matcher.GetSortedMatches(sourceCollection,targetCollection,sourceSelector,targetSelector), onVerifiedAction);
+            Console.WriteLine($"{match.SourceString} seems to match with {match.TargetString} with a rating of {match.MatchConfidence}. Confirm Match? Y or N");
+            var result = Console.ReadKey().Key == ConsoleKey.Y;
+            if (result)
+            {
+                OnVerified?.Invoke(this, match);
+            }
+
+            return result;
+
         }
     }
 }

@@ -63,18 +63,5 @@ namespace PayneUtilities
             var parsing = _parser?.GetMatchPercentage(source, target) ?? 0;
             return distancing >= parsing ? distancing : Convert.ToInt32(parsing);
         }
-
-        public double GetMatchPercentage(string source, string target)
-        {
-            int distance = GetDistance(source, target);
-            if (distance <= 10)
-            {
-                return 100-(distance * 10);
-            }
-            else
-            {
-                return 0;
-            }
-        }
     }
 }
